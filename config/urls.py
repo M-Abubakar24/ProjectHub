@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
 
+    # Authentication
     path(
         "api/auth/token/",
         TokenObtainPairView.as_view(),
@@ -26,12 +27,15 @@ urlpatterns = [
         include("accounts.urls"),
     ),
 
+    # Projects
     path(
         "api/projects/",
         include("projects.urls"),
     ),
+
+    # Tasks
+    path(
+        "api/tasks/",
+        include("tasks.urls"),
+    ),
 ]
-path(
-    "api/tasks/",
-    include("tasks.urls"),
-),
