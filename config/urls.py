@@ -1,15 +1,15 @@
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
 
-    # Authentication
     path(
         "api/auth/token/",
         TokenObtainPairView.as_view(),
@@ -22,20 +22,8 @@ urlpatterns = [
         name="token_refresh",
     ),
 
-    path(
-        "api/auth/",
-        include("accounts.urls"),
-    ),
-
-    # Projects
-    path(
-        "api/projects/",
-        include("projects.urls"),
-    ),
-
-    # Tasks
-    path(
-        "api/tasks/",
-        include("tasks.urls"),
-    ),
+    path("api/auth/", include("accounts.urls")),
+    path("api/projects/", include("projects.urls")),
+    path("api/tasks/", include("tasks.urls")),
+    path("api/dashboard/", include("dashboard.urls")),
 ]
