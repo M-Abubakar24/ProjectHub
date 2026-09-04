@@ -9,6 +9,8 @@ function getAuthHeaders() {
   };
 }
 
+// ==================== PROJECTS ====================
+
 export async function getProjects() {
   const response = await fetch(`${API_URL}/projects/`, {
     method: "GET",
@@ -40,13 +42,13 @@ export async function createProject(projectData) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(
-      data.detail || "Failed to create project"
-    );
+    throw new Error(data.detail || "Failed to create project");
   }
 
   return data;
 }
+
+// ==================== TASKS ====================
 
 export async function getTasks() {
   const response = await fetch(`${API_URL}/tasks/`, {
@@ -64,6 +66,28 @@ export async function getTasks() {
 
   return response.json();
 }
+
+export async function createTask(taskData) {
+  const response = await fetch(`${API_URL}/tasks/`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(taskData),
+  });
+
+  if (response.status === 401) {
+    throw new Error("Your session has expired. Please login again.");
+  }
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.detail || "Failed to create task");
+  }
+
+  return data;
+}
+
+// ==================== USERS ====================
 
 export async function getUsers() {
   const response = await fetch(`${API_URL}/auth/users/`, {

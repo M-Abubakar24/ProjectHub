@@ -69,8 +69,31 @@ function Login() {
       }
 
       // Save JWT tokens
-      localStorage.setItem("access_token", data.access);
-      localStorage.setItem("refresh_token", data.refresh);
+localStorage.setItem("access_token", data.access);
+localStorage.setItem("refresh_token", data.refresh);
+
+// Get logged-in user's profile
+const profileResponse = await fetch(
+  "http://127.0.0.1:8000/api/auth/profile/",
+  {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${data.access}`,
+      "Content-Type": "application/json",
+    },
+  }
+);
+
+if (!profileResponse.ok) {
+  throw new Error("Unable to load user profile.");
+}
+
+const profile = await profileResponse.json();
+
+// Save user information
+localStorage.setItem("user_role", profile.role);
+localStorage.setItem("username", profile.username);
+
 
       // Remember username
       if (rememberMe) {

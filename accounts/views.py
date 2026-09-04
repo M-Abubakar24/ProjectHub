@@ -1,8 +1,11 @@
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import User
 from .serializers import RegisterSerializer
+from .permissions import IsAdmin, IsProjectManager, IsEmployee
 
 
 class RegisterView(generics.CreateAPIView):
@@ -17,12 +20,6 @@ class ProfileView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
-
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from .permissions import IsAdmin, IsProjectManager, IsEmployee
 
 
 class AdminTestView(APIView):
@@ -56,3 +53,17 @@ class EmployeeTestView(APIView):
             "user": request.user.username,
             "role": request.user.role,
         })
+
+
+class UserListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        users = User.objects.all().values(
+            "id",
+            "username",
+            "email",
+            "role",
+        )
+
+        return Response(list(users))

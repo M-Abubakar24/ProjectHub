@@ -13,6 +13,9 @@ function App() {
   const isAuthenticated =
     localStorage.getItem("access_token");
 
+  const userRole =
+    localStorage.getItem("user_role");
+
   return (
     <BrowserRouter>
       <Routes>
@@ -45,10 +48,12 @@ function App() {
         <Route
           path="/projects"
           element={
-            isAuthenticated ? (
+            isAuthenticated &&
+            (userRole === "ADMIN" ||
+              userRole === "PROJECT_MANAGER") ? (
               <Projects />
             ) : (
-              <Navigate to="/" replace />
+              <Navigate to="/dashboard" replace />
             )
           }
         />
@@ -56,7 +61,12 @@ function App() {
         {/* Unknown URL */}
         <Route
           path="*"
-          element={<Navigate to="/" replace />}
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
         />
 
       </Routes>

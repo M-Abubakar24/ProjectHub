@@ -6,11 +6,14 @@ from .views import (
     AdminTestView,
     ProjectManagerTestView,
     EmployeeTestView,
+    UserListView,
 )
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
     path("profile/", ProfileView.as_view(), name="profile"),
+
+    path("users/", UserListView.as_view(), name="users"),
 
     path("admin-test/", AdminTestView.as_view(), name="admin-test"),
     path("manager-test/", ProjectManagerTestView.as_view(), name="manager-test"),
