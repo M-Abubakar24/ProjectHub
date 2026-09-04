@@ -82,16 +82,8 @@ function Login() {
         localStorage.removeItem("remembered_username");
       }
 
-      // Successful login
-      alert("Login successful!");
-
-      /*
-        Later, when your Dashboard is ready,
-        replace the alert above with:
-
-        window.location.href = "/dashboard";
-      */
-
+     window.location.href = "/dashboard";
+      
     } catch (error) {
       console.error("Login error:", error);
 
